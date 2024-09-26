@@ -1,0 +1,10 @@
+av
+torch
+torchvision
+tqdm
+pims
+
+fastapi
+uvicorn
+python-dotenv
+requests

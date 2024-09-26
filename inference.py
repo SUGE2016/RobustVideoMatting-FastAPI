@@ -112,7 +112,7 @@ def convert_video(model,
         device = param.device
     
     if (output_composition is not None) and (output_type == 'video'):
-        bgr = torch.tensor([120, 255, 155], device=device, dtype=dtype).div(255).view(1, 1, 3, 1, 1)
+        bgr = torch.tensor([0, 177, 64], device=device, dtype=dtype).div(255).view(1, 1, 3, 1, 1)
     
     try:
         with torch.no_grad():
@@ -159,8 +159,9 @@ def auto_downsample_ratio(h, w):
 
 class Converter:
     def __init__(self, variant: str, checkpoint: str, device: str):
+        from model import MattingNetwork
         self.model = MattingNetwork(variant).eval().to(device)
-        self.model.load_state_dict(torch.load(checkpoint, map_location=device))
+        self.model.load_state_dict(torch.load(checkpoint, map_location=device, weights_only=True))
         self.model = torch.jit.script(self.model)
         self.model = torch.jit.freeze(self.model)
         self.device = device
